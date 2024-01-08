@@ -34,7 +34,7 @@ class Player(pg.sprite.Sprite):
         #move the sprite
         '''we will keep the default speed of the object to zero and only after it with a key press
         this way we avoid coding for what happens when the hey is released'''
-        selbf.speedx = 0
+        self.speedx = 0
         keystate = pg.key.get_pressed()
         '''returned a list of keys that are down'''
         if keystate[pg.K_LEFT]:
