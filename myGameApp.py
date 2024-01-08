@@ -12,7 +12,8 @@ RED = (255,0,0)
 GREEN = (0,255,0)
 BLUE = (0,0,255)
 
-#a sprite will be an object which inherits from the built in sprite class
+#sprite class
+'''a sprite will be an object which inherits from the built in sprite class'''
 class Player(pg.sprite.Sprite):
     #sprite for the player
     def __init__(self):
@@ -27,13 +28,25 @@ class Player(pg.sprite.Sprite):
         '''looks at the image and gets its rect'''
         self.rect.center = (WIDTH/2, HEIGHT/2)
         '''places image in the centre'''
+        self.speedx = 0
     
     def update(self):
         #move the sprite
-        self.rect.x +=5
-        '''to ensure it does not run off the screen'''
+        '''we will keep the default speed of the object to zero and only after it with a key press
+        this way we avoid coding for what happens when the hey is released'''
+        selbf.speedx = 0
+        keystate = pg.key.get_pressed()
+        '''returned a list of keys that are down'''
+        if keystate[pg.K_LEFT]:
+            self.speedx = -5
+        if keystate[pg.K_RIGHT]:
+            self.speedx = 5
+        self.rect.x += self.speedx
+        '''move at speed to be set by controls'''
         if self.rect.left > WIDTH:
-            self.rect.right = 0
+            self.rect.right = WIDTH
+        if self.rect.left < 0:
+            self.rect.left = 0
 
 #initialise pygame contents
 pg.init()
