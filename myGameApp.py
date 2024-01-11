@@ -86,5 +86,6 @@ while running:
     '''always do this after drawing everything'''
     pg.display.flip()
 
+print('hello')
 #terminate the game window and close everythng up    
 pg.quit()
