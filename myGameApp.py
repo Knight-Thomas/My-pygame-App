@@ -60,12 +60,44 @@ pg.display.set_caption('My Game')
 clock = pg.time.Clock()
 '''handles the speed'''
 
+class Mob(pg.sprite.Sprite):
+    #enemy mobile object which inherits from the sprite
+    def __init__(self):
+        #constructor method
+        pg.sprite.Sprite.__init__(self)
+        self.image = pg.Surface((30,40))
+        self.image.fill(RED)
+        self.rect = self.image.get_rect()
+
+        #make the enemy spawn off top of the screen to appear off the screen and then start dropping down
+        self.rect.x = random.randrange(0, WIDTH - self.rect.width)
+        '''appears within the limits of the screen'''
+        self.rect.y = random.randrange(-100,-40)
+        '''this is off the screen'''
+        self.speedy = random.randrange(1,8)
+    def update(self):
+        #move downwards
+        self.rect.y += self.speedy
+        #deal with enemy when they get to the bottom of the screen
+        if self.rect.top > HEIGHT +10:
+            self.rect.x = random.randrange(0, WIDTH - self.rect.width)
+            '''appears within the limits of the screen and then start dropping down'''
+            self.rect.y = random.randrange(-100,-40)
+            '''this is off the screen'''
+            self.speedy = random.randrange(1,8)
+
 #create a sprite group
 all_sprites = pg.sprite.Group()
 '''instantiate the player object and add it to the sprite group'''
-player = Player()
-all_sprites.add(player)
+mobs = pg.sprite.Group()
 
+player = Player()
+for i in range(8):
+    m = Mob()
+    all_sprites.add(m)
+    mobs.add(m)
+
+all_sprites.add(player)
 #game loop
 running = True
 while running:
