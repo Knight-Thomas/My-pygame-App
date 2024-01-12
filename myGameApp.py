@@ -47,6 +47,15 @@ class Player(pg.sprite.Sprite):
             self.rect.right = WIDTH
         if self.rect.left < 0:
             self.rect.left = 0
+    
+    def shoot(self):
+        #spawns new bullet at centerx of player
+        #y will spawn at the top - i.e.bottom of the bulletat the top of the player
+        bullet = Bullet(self.rect.centerx, self.rect.top)
+        #add bullet to all sprites group so that its updated
+        all_sprites.add(bullet)
+        #add bullet to the bullets sprite group
+        bullets.add(bullet)
 
 #initialise pygame contents
 pg.init()
@@ -75,6 +84,7 @@ class Mob(pg.sprite.Sprite):
         self.rect.y = random.randrange(-100,-40)
         '''this is off the screen'''
         self.speedy = random.randrange(1,8)
+
     def update(self):
         #move downwards
         self.rect.y += self.speedy
@@ -86,10 +96,30 @@ class Mob(pg.sprite.Sprite):
             '''this is off the screen'''
             self.speedy = random.randrange(1,8)
 
+class Bullet(pg.sprite.Sprite):
+    def __init__(self,x,y):
+        '''x and y are the respawn positions based on the player's position'''
+        pg.sprite.Sprite.__init__(self)
+        self.image = pg.Surface((10,20))
+        self.image.fill(WHITE)
+        self.rect = self.image.get_rect()
+        #set re-spawn position to right infront of the player
+        self.rect.bottom = y
+        self.rect.centerx = x
+        self.speedy = -10
+
+    def update(self):
+        #rect moves upwards at the speed
+        self.rect.y += self.speedy
+        #kill it if it moves off the top of the screen
+        if self.rect.bottom < 0:
+            self .kill()
+
 #create a sprite group
 all_sprites = pg.sprite.Group()
 '''instantiate the player object and add it to the sprite group'''
 mobs = pg.sprite.Group()
+bullets = pg.sprite.Group()
 
 player = Player()
 for i in range(8):
@@ -110,9 +140,32 @@ while running:
         '''check event for closing window'''
         if event.type == pg.QUIT:
             running = False
+        #check event for keydown to shoot
+        elif event.type == pg.KEYDOWN:
+            if event.key == pg.K_SPACE:
+                player.shoot()
 
     #update
     all_sprites.update()
+
+    #check if a bullet hits a mob
+    '''you have to consider a grooup of bullets and a group of mobs
+       using a pygame.sprite.goupcollide() method helps to collide two groups together
+       setting the last two parameters will delete the bullet and the mob which collide withe each other
+       notice that this will kil the mobs so there needs to be a way of respawning them if they get killed'''
+    hits = pg.sprite.groupcollide(mobs,bullets,True,True)
+    #check to see if a mob hit the player
+    for hit in hits:
+        m = Mob()
+        all_sprites.add(m)
+        mobs.add(m)
+        
+    hits = pg.sprite.spritecollide(player,mobs,False)
+    '''parametersare object to check against and group against'''
+    '''FALSE indicates wether hit item in group should be delete or not'''
+
+    if hits:
+        running = False
     #draw/render
     screen.fill(BLUE)
     '''always do this after drawing everything'''
