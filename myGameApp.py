@@ -1,6 +1,7 @@
 #imports
 import pygame as pg
 import random
+import time
 
 from os import path
 img_dir = path.join(path.dirname(__file__), 'img')
@@ -34,7 +35,7 @@ mob_img = pg.image.load(path.join(img_dir, 'James-Suggs.webp')).convert()
 
 font_name = pg.font.match_font('arial')
 
-def draw_text(surf,text,size, x,y):
+def draw_text1(surf,text,size, x,y):
     #create a font oject
     font = pg.font.Font(font_name,size)
     #this will create text
@@ -46,6 +47,17 @@ def draw_text(surf,text,size, x,y):
     #put x,y at the midtop of the rectangle
     surf.blit(text_surface, text_rect)
 
+def draw_text2(surf, text, size, x,y):
+        #create a font oject
+    font = pg.font.Font(font_name,size)
+    #this will create text
+    text_surface = font.render(text,True,BLUE)
+    #true is for anti aliasing
+    text_rect = text_surface.get_rect()
+    #get rectagle for the text
+    text_rect.midtop = (x,y)
+    #put x,y at the midtop of the rectangle
+    surf.blit(text_surface, text_rect)
 #a sprite will be an object which inherits from the built in sprite class
 class Player(pg.sprite.Sprite):
     #sprite for the player
@@ -143,6 +155,7 @@ for i in range(8):
 
 all_sprites.add(player)
 score = 0
+text2 = ''
 #game loop
 running = True
 while running:
@@ -171,6 +184,10 @@ while running:
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
+    if score == 100:
+        text2 = 'I TOLD YOU DAVE I NEVER LOSE'
+    elif score == 115:
+        text2 = ''
 
     #Check to see if a mob hits the player
     hits = pg.sprite.spritecollide(player,mobs,False)
@@ -184,7 +201,8 @@ while running:
     screen.fill(BLACK)
     screen.blit(background,background_rect)
     all_sprites.draw(screen)
-    draw_text(screen,str(score),18,WIDTH/2,10  )
+    draw_text1(screen,str(score),18,WIDTH/2,10  )
+    draw_text2(screen,str(text2),18,WIDTH/2,25)
     #always do this after drawing anything
     pg.display.flip()
 #terminate the game window and close everything up    
