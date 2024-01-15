@@ -108,8 +108,8 @@ player = Player()
 #Spawn some mobs
 for i in range(8):
     m = Mob()
-    all_sprites.add(m)
     mobs.add(m)
+    all_sprites.add(m)
 
 all_sprites.add(player)
 
@@ -132,16 +132,17 @@ while running:
     all_sprites.update()
     #Check if a bullet hits a mob
     hits = pg.sprite.groupcollide(mobs,bullets,True,True)
-    #Check to see if a mob hits the player
-    hits = pg.sprite.spritecollide(player,mobs,False) #parameters are object to check against and group against
-    #False indicates whether hit item in group should be deleted or not
-   
-#respawn mobs destroyed by bullets
     for hit in hits:
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
 
+    #Check to see if a mob hits the player
+    hits = pg.sprite.spritecollide(player,mobs,False)
+    #parameters are object to check against and group against
+    #False indicates whether hit item in group should be deleted or not
+   
+#respawn mobs destroyed by bullets
     if hits:
         running = False
     #draw/render
