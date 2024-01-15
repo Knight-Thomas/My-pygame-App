@@ -5,6 +5,8 @@ import time
 
 from os import path
 img_dir = path.join(path.dirname(__file__), 'img')
+snd_dir = path.join(path.dirname(__file__),'snd')
+
 
 
 
@@ -21,7 +23,8 @@ YELLOW = (255,255,0)
 #Initialise common pygame objects
 pg.init()
 pg.mixer.init()
-
+background_sound1 = pg.mixer.Sound(path.join(snd_dir,'Alvin-Funkytown.mp3'))
+background_sound1.play(60)     
 #create the display
 screen = pg.display.set_mode((WIDTH, HEIGHT))
 pg.display.set_caption('My Game')
