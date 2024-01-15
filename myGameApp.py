@@ -137,7 +137,10 @@ while running:
     #False indicates whether hit item in group should be deleted or not
    
 #respawn mobs destroyed by bullets
-
+    for hit in hits:
+        m = Mob()
+        all_sprites.add(m)
+        mobs.add(m)
 
     if hits:
         running = False
