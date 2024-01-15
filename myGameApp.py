@@ -2,8 +2,13 @@
 import pygame as pg
 import random
 
+from os import path
+img_dir = path.join(path.dirname(__file__), 'img')
+
+
+
 #parameters
-WIDTH, HEIGHT, FPS = (480,600,60)
+WIDTH, HEIGHT, FPS = (800,600,60)
 #define colours
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -20,15 +25,21 @@ pg.mixer.init()
 screen = pg.display.set_mode((WIDTH, HEIGHT))
 pg.display.set_caption('My Game')
 clock = pg.time.Clock()
-
+background = pg.image.load(path.join(img_dir,"Uncle-Ian.webp")).convert()
+background_rect = background.get_rect()
+#load other images
+player_img = pg.image.load(path.join(img_dir, "Dave-Seville.jpeg")).convert()
+bullet_img = pg.image.load(path.join(img_dir, 'Alvin-Seville.TIFF')).convert()
+mob_img = pg.image.load(path.join(img_dir, 'James-Suggs.webp')).convert()
 #a sprite will be an object which inherits from the built in sprite class
 class Player(pg.sprite.Sprite):
     #sprite for the player
     def __init__(self):
         #constructor
         pg.sprite.Sprite.__init__(self) #inheritance
-        self.image = pg.Surface((50,40))
-        self.image.fill(GREEN)
+        #self.image = pg.Surface((50,40))
+        #self.image.fill(GREEN)
+        self.image = pg.transform.scale(player_img,(50,38))
         #useful for moving, size, position and collision
         self.rect = self.image.get_rect()  #looks at the image and gets its rect
         self.rect.centerx = WIDTH/2 #places image in the centre
@@ -64,8 +75,9 @@ class Mob(pg.sprite.Sprite):
     #enemy mobile object which inherits from the sprite
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((30,40))
-        self.image.fill(RED)
+        #self.image = pg.Surface((30,40))
+        #self.image.fill(RED)
+        self.image = pg.transform.scale(mob_img,(50,50))
         self.rect = self.image.get_rect()
        
         #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
@@ -85,8 +97,10 @@ class Bullet(pg.sprite.Sprite):
     def __init__(self,x,y):
         #x and y and respawn positions based on the player's position
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((10,20))
-        self.image.fill(YELLOW)
+        #self.image = pg.Surface((10,20))
+        #self.image.fill(YELLOW)
+        self.image = pg.transform.scale(bullet_img,(20,40))
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
         #set respawn position to right in front of the player
         self.rect.bottom = y
@@ -127,8 +141,11 @@ while running:
         elif event.type == pg.KEYDOWN:
             if event.key == pg.K_SPACE:
                 player.shoot()
-
-    #update
+   
+    #load all game graphics
+    #convert() methods will draw the image in memory before it is displayed which is
+    #much fast than drawing it in real time .e. pixel by pixel
+   #update
     all_sprites.update()
     #Check if a bullet hits a mob
     hits = pg.sprite.groupcollide(mobs,bullets,True,True)
@@ -147,6 +164,7 @@ while running:
         running = False
     #draw/render
     screen.fill(BLACK)
+    screen.blit(background,background_rect)
     all_sprites.draw(screen)
     #always do this after drawing anything
     pg.display.flip()
