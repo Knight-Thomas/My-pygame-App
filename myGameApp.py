@@ -31,6 +31,21 @@ background_rect = background.get_rect()
 player_img = pg.image.load(path.join(img_dir, "Dave-Seville.jpeg")).convert()
 bullet_img = pg.image.load(path.join(img_dir, 'Alvin-Seville.TIFF')).convert()
 mob_img = pg.image.load(path.join(img_dir, 'James-Suggs.webp')).convert()
+
+font_name = pg.font.match_font('arial')
+
+def draw_text(surf,text,size, x,y):
+    #create a font oject
+    font = pg.font.Font(font_name,size)
+    #this will create text
+    text_surface = font.render(text,True,RED)
+    #true is for anti aliasing
+    text_rect = text_surface.get_rect()
+    #get rectagle for the text
+    text_rect.midtop = (x,y)
+    #put x,y at the midtop of the rectangle
+    surf.blit(text_surface, text_rect)
+
 #a sprite will be an object which inherits from the built in sprite class
 class Player(pg.sprite.Sprite):
     #sprite for the player
@@ -55,7 +70,7 @@ class Player(pg.sprite.Sprite):
         if keystate[pg.K_LEFT]:
             self.speedx = -5
         if keystate[pg.K_RIGHT]:
-            self.speedx = 5
+            self.speedx = 5   
         self.rect.x += self.speedx #move at speed to be set by controls
         #to ensure it does not run off the screen
         if self.rect.right > WIDTH:
@@ -78,6 +93,7 @@ class Mob(pg.sprite.Sprite):
         #self.image = pg.Surface((30,40))
         #self.image.fill(RED)
         self.image = pg.transform.scale(mob_img,(50,50))
+        self.image.set_colorkey(BLACK)
         self.rect = self.image.get_rect()
        
         #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
@@ -120,13 +136,13 @@ bullets = pg.sprite.Group()
 #instatiate the player object and add it to the sprite group
 player = Player()
 #Spawn some mobs
-for i in range(8):
+for i in range(8):  
     m = Mob()
     mobs.add(m)
     all_sprites.add(m)
 
 all_sprites.add(player)
-
+score = 0
 #game loop
 running = True
 while running:
@@ -145,11 +161,13 @@ while running:
     #load all game graphics
     #convert() methods will draw the image in memory before it is displayed which is
     #much fast than drawing it in real time .e. pixel by pixel
-   #update
+    #update
     all_sprites.update()
     #Check if a bullet hits a mob
     hits = pg.sprite.groupcollide(mobs,bullets,True,True)
     for hit in hits:
+        score +=1 
+        #1 point for every hit you make
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
@@ -166,6 +184,7 @@ while running:
     screen.fill(BLACK)
     screen.blit(background,background_rect)
     all_sprites.draw(screen)
+    draw_text(screen,str(score),18,WIDTH/2,10  )
     #always do this after drawing anything
     pg.display.flip()
 #terminate the game window and close everything up    
