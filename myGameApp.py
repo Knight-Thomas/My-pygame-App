@@ -7,7 +7,8 @@ from os import path
 img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__),'snd')
 
-
+ 
+'''idea: chamge the dave sevill photo so its lookoing what way its going '''
 
 
 #parameters
@@ -21,12 +22,12 @@ BLUE = (0,0,255)
 YELLOW = (255,255,0)
 
 #Initialise common pygame objects
-pg.init()
+pg.init()  
 pg.mixer.init()
 background_sound1 = pg.mixer.Sound(path.join(snd_dir,'Alvin-Funkytown.mp3'))
 background_sound1.play(60)     
 #create the display
-screen = pg.display.set_mode((WIDTH, HEIGHT))
+screen = pg.display.set_mode(( WIDTH, HEIGHT))
 pg.display.set_caption('My Game')
 clock = pg.time.Clock()
 background = pg.image.load(path.join(img_dir,"Uncle-Ian.webp")).convert()
@@ -34,7 +35,7 @@ background_rect = background.get_rect()
 #load other images
 player_img = pg.image.load(path.join(img_dir, "Dave-Seville.jpeg")).convert()
 bullet_img = pg.image.load(path.join(img_dir, 'Alvin-Seville.TIFF')).convert()
-mob_img = pg.image.load(path.join(img_dir, 'James-Suggs.webp')).convert()
+mob_img = pg.image.load(path.join(img_dir, 'James-Suggs.webp')).convert() 
 
 font_name = pg.font.match_font('arial')
 
