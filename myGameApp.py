@@ -45,13 +45,12 @@ new_db = sqlite3.connect("Ian-Hawke-Game.db")
 c = new_db.cursor()
 query = '''
             INSERT INTO Users
-            VALUES ("tk_747", "4321", 16)
+            VALUES ("tmk747", "9876", 45)
         '''
 
 
 c.execute(query)
 
-new_db.commit()
 
 def draw_text1(surf,text,size, x,y):
     #create a font oject
@@ -225,4 +224,5 @@ while running:
     pg.display.flip()
 #terminate the game window and close everything up    
 pg.quit
+new_db.commit()
 new_db.close()
