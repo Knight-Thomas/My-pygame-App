@@ -38,6 +38,8 @@ background_rect = background.get_rect()
 player_img = pg.image.load(path.join(img_dir, "Dave-Seville.jpeg")).convert()
 bullet_img = pg.image.load(path.join(img_dir, 'Alvin-Seville.TIFF')).convert()
 mob_img = pg.image.load(path.join(img_dir, 'James-Suggs.TIFF')).convert() 
+bullet_imgT = pg.image.load(path.join(img_dir, 'Theodore-Seville.TIFF')).convert()
+bullet_imgS = pg.image.load(path.join(img_dir, 'Simon-Seville.TIFF'))
 
 font_name = pg.font.match_font('arial')
 
@@ -45,7 +47,7 @@ new_db = sqlite3.connect("Ian-Hawke-Game.db")
 c = new_db.cursor()
 query = '''
             INSERT INTO Users
-            VALUES ("tmk747", "9876", 45)
+            VALUES ("francis_fs12", "54321", 99 )
         '''
 
 
@@ -202,9 +204,177 @@ while running:
         all_sprites.add(m)
         mobs.add(m)
     if score == 100:
-        text2 = 'I TOLD YOU DAVE I NEVER LOSE'
-    elif score == 115:
-        text2 = ''
+        class Bullet(pg.sprite.Sprite):
+            def __init__(self,x,y):
+                #x and y and respawn positions based on the player's position
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((10,20))
+                #self.image.fill(YELLOW)
+                self.image = pg.transform.scale(bullet_imgS,(20,50))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+                #set respawn position to right in front of the player
+                self.rect.bottom = y
+                self.rect.centerx = x
+                self.speedy = -15
+            def update(self):
+                #rect moves upwards at the speed
+                self.rect.y += self.speedy
+                #kill it if it moves off the top of the screen
+                if self.rect.bottom < 0:
+                    self.kill()
+        class Mob(pg.sprite.Sprite):
+            #enemy mobile object which inherits from the sprite
+            def __init__(self):
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((30,40))
+                #self.image.fill(RED)
+                self.image = pg.transform.scale(mob_img,(50,50))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+       
+                #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
+                self.rect.x = random.randrange(0,WIDTH - self.rect.width) #appears within the limits of the screen
+                self.rect.y = random.randrange(-100,-40) #this is off the screen
+                self.speedy = random.randrange(1,15)
+            def update(self):
+                #move downwards
+                self.rect.y += self.speedy
+                #deal with enemy when they get to bottom of the screen
+                if self.rect.top > HEIGHT + 10:
+                    self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
+                    self.rect.y = random.randrange(-100,-40) #this is off the screen
+                    self.speedy = random.randrange(1,15)
+        
+    
+    elif score == 150:
+        class Bullet(pg.sprite.Sprite):
+            def __init__(self,x,y):
+                #x and y and respawn positions based on the player's position
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((10,20))
+                #self.image.fill(YELLOW)
+                self.image = pg.transform.scale(bullet_img,(20,40))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+                #set respawn position to right in front of the player
+                self.rect.bottom = y
+                self.rect.centerx = x
+                self.speedy = -10
+            def update(self):
+                #rect moves upwards at the speed
+                self.rect.y += self.speedy
+                #kill it if it moves off the top of the screen
+                if self.rect.bottom < 0:
+                    self.kill()
+        class Mob(pg.sprite.Sprite):
+            #enemy mobile object which inherits from the sprite
+            def __init__(self):
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((30,40))
+                #self.image.fill(RED)
+                self.image = pg.transform.scale(mob_img,(50,50))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+       
+                #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
+                self.rect.x = random.randrange(0,WIDTH - self.rect.width) #appears within the limits of the screen
+                self.rect.y = random.randrange(-100,-40) #this is off the screen
+                self.speedy = random.randrange(1,8)
+            def update(self):
+                #move downwards
+                self.rect.y += self.speedy
+                #deal with enemy when they get to bottom of the screen
+                if self.rect.top > HEIGHT + 10:
+                    self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
+                    self.rect.y = random.randrange(-100,-40) #this is off the screen
+                    self.speedy = random.randrange(1,8)
+            
+    elif score == 300:
+        class Bullet(pg.sprite.Sprite):
+            def __init__(self,x,y):
+                #x and y and respawn positions based on the player's position
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((10,20))
+                #self.image.fill(YELLOW)
+                self.image = pg.transform.scale(bullet_imgT,(70,80))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+                #set respawn position to right in front of the player
+                self.rect.bottom = y
+                self.rect.centerx = x
+                self.speedy = -5
+            def update(self):
+                #rect moves upwards at the speed
+                self.rect.y += self.speedy
+                #kill it if it moves off the top of the screen
+                if self.rect.bottom < 0:
+                    self.kill()
+        class Mob(pg.sprite.Sprite):
+            #enemy mobile object which inherits from the sprite
+            def __init__(self):
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((30,40))
+                #self.image.fill(RED)
+                self.image = pg.transform.scale(mob_img,(50,50))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+       
+                #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
+                self.rect.x = random.randrange(0,WIDTH - self.rect.width) #appears within the limits of the screen
+                self.rect.y = random.randrange(-100,-40) #this is off the screen
+                self.speedy = random.randrange(1,20)
+            def update(self):
+                #move downwards
+                self.rect.y += self.speedy
+                #deal with enemy when they get to bottom of the screen
+                if self.rect.top > HEIGHT + 10:
+                    self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
+                    self.rect.y = random.randrange(-100,-40) #this is off the screen
+                    self.speedy = random.randrange(1,20)
+    
+    elif score == 350:
+        class Bullet(pg.sprite.Sprite):
+            def __init__(self,x,y):
+                #x and y and respawn positions based on the player's position
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((10,20))
+                #self.image.fill(YELLOW)
+                self.image = pg.transform.scale(bullet_img,(20,40))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+                #set respawn position to right in front of the player
+                self.rect.bottom = y
+                self.rect.centerx = x
+                self.speedy = -10
+            def update(self):
+                #rect moves upwards at the speed
+                self.rect.y += self.speedy
+                #kill it if it moves off the top of the screen
+                if self.rect.bottom < 0:
+                    self.kill()
+        class Mob(pg.sprite.Sprite):
+            #enemy mobile object which inherits from the sprite
+            def __init__(self):
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((30,40))
+                #self.image.fill(RED)
+                self.image = pg.transform.scale(mob_img,(50,50))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+       
+                #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
+                self.rect.x = random.randrange(0,WIDTH - self.rect.width) #appears within the limits of the screen
+                self.rect.y = random.randrange(-100,-40) #this is off the screen
+                self.speedy = random.randrange(1,8)
+            def update(self):
+                #move downwards
+                self.rect.y += self.speedy
+                #deal with enemy when they get to bottom of the screen
+                if self.rect.top > HEIGHT + 10:
+                    self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
+                    self.rect.y = random.randrange(-100,-40) #this is off the screen
+                    self.speedy = random.randrange(1,8)
 
     #Check to see if a mob hits the player
     hits = pg.sprite.spritecollide(player,mobs,False)
@@ -218,7 +388,7 @@ while running:
     screen.fill(BLACK)
     screen.blit(background,background_rect)
     all_sprites.draw(screen)
-    draw_text1(screen,str(score),18,WIDTH/2,10  )
+    draw_text1(screen,str(score),18,WIDTH/2,10)
     draw_text2(screen,str(text2),18,WIDTH/2,25)
     #always do this after drawing anything
     pg.display.flip()
