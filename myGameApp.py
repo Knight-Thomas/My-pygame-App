@@ -2,13 +2,15 @@
 import pygame as pg
 import random
 import time
+import sqlite3
 
 from os import path
 img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__),'snd')
 
  
-'''idea: chamge the dave sevill photo so its lookoing what way its going '''
+'''idea: chamge the dave sevill photo so its lookoing what way its going'''
+'''create  database where a username and password is required to login and theyre high score will be stored in this database and will be updated if they beat it'''
 
 
 #parameters
@@ -38,6 +40,18 @@ bullet_img = pg.image.load(path.join(img_dir, 'Alvin-Seville.TIFF')).convert()
 mob_img = pg.image.load(path.join(img_dir, 'James-Suggs.TIFF')).convert() 
 
 font_name = pg.font.match_font('arial')
+
+new_db = sqlite3.connect("Ian-Hawke-Game.db")
+c = new_db.cursor()
+query = '''
+            INSERT INTO Users
+            VALUES ("tk_747", "4321", 16)
+        '''
+
+
+c.execute(query)
+
+new_db.commit()
 
 def draw_text1(surf,text,size, x,y):
     #create a font oject
@@ -211,3 +225,4 @@ while running:
     pg.display.flip()
 #terminate the game window and close everything up    
 pg.quit
+new_db.close()
