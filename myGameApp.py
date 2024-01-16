@@ -35,7 +35,7 @@ background_rect = background.get_rect()
 #load other images
 player_img = pg.image.load(path.join(img_dir, "Dave-Seville.jpeg")).convert()
 bullet_img = pg.image.load(path.join(img_dir, 'Alvin-Seville.TIFF')).convert()
-mob_img = pg.image.load(path.join(img_dir, 'James-Suggs.webp')).convert() 
+mob_img = pg.image.load(path.join(img_dir, 'James-Suggs.TIFF')).convert() 
 
 font_name = pg.font.match_font('arial')
 
