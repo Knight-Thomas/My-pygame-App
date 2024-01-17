@@ -15,6 +15,7 @@ snd_dir = path.join(path.dirname(__file__),'snd')
 
 #parameters
 WIDTH, HEIGHT, FPS = (800,600,60)
+WIDTH1, HEIGHT1, FPS1 = (600,500,60)
 #define colours
 WHITE = (255,255,255)
 BLACK = (0,0,0)
@@ -26,6 +27,9 @@ YELLOW = (255,255,0)
 #Initialise common pygame objects
 pg.init()  
 pg.mixer.init()
+screen1 = pg.display.set_mode((WIDTH1, HEIGHT1))
+pg.display.set_caption('Sign In')
+clock1 = pg.time.Clock()
 background_sound1 = pg.mixer.Sound(path.join(snd_dir,'Alvin-Funkytown.mp3'))
 background_sound1.play(60)     
 #create the display
@@ -47,7 +51,7 @@ new_db = sqlite3.connect("Ian-Hawke-Game.db")
 c = new_db.cursor()
 query = '''
             INSERT INTO Users
-            VALUES ("francis_fs12", "54321", 99 )
+            VALUES ("francis_fs17", "54321", 99 )
         '''
 
 
@@ -203,7 +207,7 @@ while running:
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
-    if score == 100:
+    if score == 200:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -247,7 +251,7 @@ while running:
                     self.speedy = random.randrange(1,15)
         
     
-    elif score == 150:
+    elif score == 600:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -280,7 +284,7 @@ while running:
                 #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
                 self.rect.x = random.randrange(0,WIDTH - self.rect.width) #appears within the limits of the screen
                 self.rect.y = random.randrange(-100,-40) #this is off the screen
-                self.speedy = random.randrange(1,8)
+                self.speedy = random.randrange(1,15)
             def update(self):
                 #move downwards
                 self.rect.y += self.speedy
@@ -288,9 +292,9 @@ while running:
                 if self.rect.top > HEIGHT + 10:
                     self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
-                    self.speedy = random.randrange(1,8)
+                    self.speedy = random.randrange(1,15)
             
-    elif score == 300:
+    elif score == 400:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -333,7 +337,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,20)
     
-    elif score == 350:
+    elif score == 1200:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -366,7 +370,7 @@ while running:
                 #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
                 self.rect.x = random.randrange(0,WIDTH - self.rect.width) #appears within the limits of the screen
                 self.rect.y = random.randrange(-100,-40) #this is off the screen
-                self.speedy = random.randrange(1,8)
+                self.speedy = random.randrange(1,20)
             def update(self):
                 #move downwards
                 self.rect.y += self.speedy
@@ -374,7 +378,92 @@ while running:
                 if self.rect.top > HEIGHT + 10:
                     self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
-                    self.speedy = random.randrange(1,8)
+                    self.speedy = random.randrange(1,20)
+    elif score == 800:
+        class Bullet(pg.sprite.Sprite):
+            def __init__(self,x,y):
+                #x and y and respawn positions based on the player's position
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((10,20))
+                #self.image.fill(YELLOW)
+                self.image = pg.transform.scale(bullet_imgS,(20,50))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+                #set respawn position to right in front of the player
+                self.rect.bottom = y
+                self.rect.centerx = x
+                self.speedy = -15
+            def update(self):
+                #rect moves upwards at the speed
+                self.rect.y += self.speedy
+                #kill it if it moves off the top of the screen
+                if self.rect.bottom < 0:
+                    self.kill()
+        class Mob(pg.sprite.Sprite):
+            #enemy mobile object which inherits from the sprite
+            def __init__(self):
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((30,40))
+                #self.image.fill(RED)
+                self.image = pg.transform.scale(mob_img,(50,50))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+       
+                #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
+                self.rect.x = random.randrange(0,WIDTH - self.rect.width) #appears within the limits of the screen
+                self.rect.y = random.randrange(-100,-40) #this is off the screen
+                self.speedy = random.randrange(1,25)
+            def update(self):
+                #move downwards
+                self.rect.y += self.speedy
+                #deal with enemy when they get to bottom of the screen
+                if self.rect.top > HEIGHT + 10:
+                    self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
+                    self.rect.y = random.randrange(-100,-40) #this is off the screen
+                    self.speedy = random.randrange(1,25)
+    elif score == 1000:
+        class Bullet(pg.sprite.Sprite):
+            def __init__(self,x,y):
+                #x and y and respawn positions based on the player's position
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((10,20))
+                #self.image.fill(YELLOW)
+                self.image = pg.transform.scale(bullet_imgT,(80,60))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+                #set respawn position to right in front of the player
+                self.rect.bottom = y
+                self.rect.centerx = x
+                self.speedy = -15
+            def update(self):
+                #rect moves upwards at the speed
+                self.rect.y += self.speedy
+                #kill it if it moves off the top of the screen
+                if self.rect.bottom < 0:
+                    self.kill()
+        class Mob(pg.sprite.Sprite):
+            #enemy mobile object which inherits from the sprite
+            def __init__(self):
+                pg.sprite.Sprite.__init__(self)
+                #self.image = pg.Surface((30,40))
+                #self.image.fill(RED)
+                self.image = pg.transform.scale(mob_img,(50,50))
+                self.image.set_colorkey(BLACK)
+                self.rect = self.image.get_rect()
+       
+                #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
+                self.rect.x = random.randrange(0,WIDTH - self.rect.width) #appears within the limits of the screen
+                self.rect.y = random.randrange(-100,-40) #this is off the screen
+                self.speedy = random.randrange(1,30)
+            def update(self):
+                #move downwards
+                self.rect.y += self.speedy
+                #deal with enemy when they get to bottom of the screen
+                if self.rect.top > HEIGHT + 10:
+                    self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
+                    self.rect.y = random.randrange(-100,-40) #this is off the screen
+                    self.speedy = random.randrange(1,30)
+        
 
     #Check to see if a mob hits the player
     hits = pg.sprite.spritecollide(player,mobs,False)
