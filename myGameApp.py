@@ -51,7 +51,7 @@ new_db = sqlite3.connect("Ian-Hawke-Game.db")
 c = new_db.cursor()
 query = '''
             INSERT INTO Users
-            VALUES ("francis_fs17", "54321", 99 )
+            VALUES ("francis_fs24", "54321", 99 )
         '''
 
 
@@ -74,13 +74,14 @@ def draw_text2(surf, text, size, x,y):
         #create a font oject
     font = pg.font.Font(font_name,size)
     #this will create text
-    text_surface = font.render(text,True,BLUE)
+    text_surface = font.render(text,True,RED)
     #true is for anti aliasing
     text_rect = text_surface.get_rect()
     #get rectagle for the text
     text_rect.midtop = (x,y)
     #put x,y at the midtop of the rectangle
     surf.blit(text_surface, text_rect)
+
 #a sprite will be an object which inherits from the built in sprite class
 class Player(pg.sprite.Sprite):
     #sprite for the player
@@ -207,7 +208,10 @@ while running:
         m = Mob()
         all_sprites.add(m)
         mobs.add(m)
-    if score == 200:
+    if score == 0:
+        text2 = 'LEVEL 1'
+        draw_text2(screen,str(text2),18,WIDTH/2,30)
+    elif score == 200:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -249,8 +253,9 @@ while running:
                     self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,15)
+        text2 = 'LEVEL 2'
+        draw_text2(screen,str(text2),18,WIDTH/2,30)
         
-    
     elif score == 600:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
@@ -293,6 +298,8 @@ while running:
                     self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,15)
+        text2 = 'LEVEL 4'
+        draw_text2(screen,str(text2),18,WIDTH/2,30)
             
     elif score == 400:
         class Bullet(pg.sprite.Sprite):
@@ -336,7 +343,9 @@ while running:
                     self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,20)
-    
+        text2 = 'LEVEL 3'
+        draw_text2(screen,str(text2),18,WIDTH/2,30)   
+
     elif score == 1200:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
@@ -370,7 +379,7 @@ while running:
                 #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
                 self.rect.x = random.randrange(0,WIDTH - self.rect.width) #appears within the limits of the screen
                 self.rect.y = random.randrange(-100,-40) #this is off the screen
-                self.speedy = random.randrange(1,20)
+                self.speedy = random.randrange(1,30)
             def update(self):
                 #move downwards
                 self.rect.y += self.speedy
@@ -378,7 +387,10 @@ while running:
                 if self.rect.top > HEIGHT + 10:
                     self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
-                    self.speedy = random.randrange(1,20)
+                    self.speedy = random.randrange(1,30)
+        text2 = 'LEVEL 7'
+        draw_text2(screen,str(text2),18,WIDTH/2,30)
+
     elif score == 800:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
@@ -421,6 +433,9 @@ while running:
                     self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,25)
+        text2 = 'LEVEL 5'
+        draw_text2(screen,str(text2),18,WIDTH/2,30)
+
     elif score == 1000:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
@@ -454,7 +469,7 @@ while running:
                 #make the enemy spawn off top of screen to appear off thescreen and then start dropping down
                 self.rect.x = random.randrange(0,WIDTH - self.rect.width) #appears within the limits of the screen
                 self.rect.y = random.randrange(-100,-40) #this is off the screen
-                self.speedy = random.randrange(1,30)
+                self.speedy = random.randrange(1,20)
             def update(self):
                 #move downwards
                 self.rect.y += self.speedy
@@ -462,7 +477,9 @@ while running:
                 if self.rect.top > HEIGHT + 10:
                     self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
-                    self.speedy = random.randrange(1,30)
+                    self.speedy = random.randrange(1,20)
+        text2 = 'LEVEL 6'
+        draw_text2(screen,str(text2),18,WIDTH/2,30)
         
 
     #Check to see if a mob hits the player
