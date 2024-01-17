@@ -21,6 +21,9 @@ clock = pg.time.Clock()
 
 font_name = pg.font.match_font('comic sans')
 
+new_db = sqlite3.connect("Ian-Hawke-Game.db")
+c = new_db.cursor()
+
 def draw_text1(surf,text,size, x,y):
     #create a font oject
     font = pg.font.Font(font_name,size)
@@ -85,4 +88,15 @@ while running:
     draw_text3(screen,str(text3),18,WIDTH1/2,50)
     pg.display.flip()
 
+Username = input('Enter Username: ')
+Password = input('Enter Password: ')
+HighScore = 5
+
+
+c.execute('''INSERT INTO Users
+          VALUES (?,?,?)''', (Username, Password, HighScore))
+
+
 pg.quit()
+new_db.commit()
+new_db.close()
