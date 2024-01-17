@@ -1,7 +1,6 @@
 #imports
 import pygame as pg
 import random
-import time
 import sqlite3
 
 from os import path
@@ -27,9 +26,6 @@ YELLOW = (255,255,0)
 #Initialise common pygame objects
 pg.init()  
 pg.mixer.init()
-screen1 = pg.display.set_mode((WIDTH1, HEIGHT1))
-pg.display.set_caption('Sign In')
-clock1 = pg.time.Clock()
 background_sound1 = pg.mixer.Sound(path.join(snd_dir,'Alvin-Funkytown.mp3'))
 background_sound1.play(60)     
 #create the display
