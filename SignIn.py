@@ -1,5 +1,4 @@
 import pygame as pg
-import random
 import sqlite3
 
 WIDTH1, HEIGHT1, FPS1 = (600,500,60)
