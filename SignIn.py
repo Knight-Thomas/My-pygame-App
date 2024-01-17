@@ -1,5 +1,6 @@
 import pygame as pg
 import sqlite3
+import sys
 
 WIDTH1, HEIGHT1, FPS1 = (600,500,60)
 #Define colours
@@ -19,7 +20,7 @@ screen = pg.display.set_mode(( WIDTH1, HEIGHT1))
 pg.display.set_caption('Sign in')
 clock = pg.time.Clock()
 
-font_name = pg.font.match_font('comic sans')
+font_name = pg.font.match_font('Consolas')
 
 new_db = sqlite3.connect("Ian-Hawke-Game.db")
 c = new_db.cursor()
@@ -61,7 +62,6 @@ def draw_text3(surf,text,size, x,y):
     surf.blit(text_surface, text_rect)
 
 
-
 #create a sprite group
 all_sprites = pg.sprite.Group()
 
@@ -83,9 +83,9 @@ while running:
     #Draw/render
     screen.fill(GREY)
     all_sprites.draw(screen)
-    draw_text1(screen,str(text1),18,WIDTH1/2,10)
-    draw_text2(screen,str(text2),18,WIDTH1/2,30)
-    draw_text3(screen,str(text3),18,WIDTH1/2,50)
+    draw_text1(screen,str(text1),15,WIDTH1/2,10)
+    draw_text2(screen,str(text2),15,WIDTH1/2,30)
+    draw_text3(screen,str(text3),15,WIDTH1/2,50)
     pg.display.flip()
 
 Username = input('Enter Username: ')

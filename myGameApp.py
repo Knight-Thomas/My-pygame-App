@@ -45,13 +45,6 @@ font_name = pg.font.match_font('arial')
 
 new_db = sqlite3.connect("Ian-Hawke-Game.db")
 c = new_db.cursor()
-query = '''
-            INSERT INTO Users
-            VALUES ("francis_fs24", "54321", 99 )
-        '''
-
-
-c.execute(query)
 
 
 def draw_text1(surf,text,size, x,y):
@@ -207,6 +200,7 @@ while running:
     if score == 0:
         text2 = 'LEVEL 1'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
+    
     elif score == 200:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
@@ -294,7 +288,7 @@ while running:
                     self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,15)
-        text2 = 'LEVEL 4'
+        text2 = 'LEVEL 400'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
             
     elif score == 400:
@@ -494,6 +488,13 @@ while running:
     draw_text2(screen,str(text2),18,WIDTH/2,25)
     #always do this after drawing anything
     pg.display.flip()
+
+Username = input('Enter Username: ')
+Password = input('Enter Password: ')
+
+c.execute('''INSERT INTO Users
+          VALUES (?,?,?)''', (Username, Password, score))
+
 #terminate the game window and close everything up    
 pg.quit
 new_db.commit()
