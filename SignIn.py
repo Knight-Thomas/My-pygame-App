@@ -90,13 +90,16 @@ while running:
 
 Username = input('Enter Username: ')
 Password = input('Enter Password: ')
-HighScore = 5
 
 
 c.execute('''INSERT INTO Users
-          VALUES (?,?,?)''', (Username, Password, HighScore))
+          VALUES (?,?,0)''', (Username, Password))
 
 
-pg.quit()
+if Username and Password != '':
+    pg.QUIT
+else:
+    print('Invalid')
+
 new_db.commit()
 new_db.close()

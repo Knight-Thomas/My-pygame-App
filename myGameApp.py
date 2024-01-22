@@ -32,7 +32,7 @@ background_sound1.play(60)
 screen = pg.display.set_mode(( WIDTH, HEIGHT))
 pg.display.set_caption('My Game')
 clock = pg.time.Clock()
-background = pg.image.load(path.join(img_dir,"Uncle-Ian.webp")).convert()
+background = pg.image.load(path.join(img_dir,"UncleIan.jpeg")).convert()
 background_rect = background.get_rect()
 #load other images
 player_img = pg.image.load(path.join(img_dir, "Dave-Seville.jpeg")).convert()
@@ -201,7 +201,7 @@ while running:
         text2 = 'LEVEL 1'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
     
-    elif score == 200:
+    elif score == 20:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -246,7 +246,7 @@ while running:
         text2 = 'LEVEL 2'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
         
-    elif score == 600:
+    elif score == 60:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -288,10 +288,10 @@ while running:
                     self.rect.x = random.randrange(0, WIDTH - self.rect.width) #appears within the limits of the screen
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,15)
-        text2 = 'LEVEL 400'
+        text2 = 'LEVEL 4'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
             
-    elif score == 400:
+    elif score == 40:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -336,7 +336,7 @@ while running:
         text2 = 'LEVEL 3'
         draw_text2(screen,str(text2),18,WIDTH/2,30)   
 
-    elif score == 1200:
+    elif score == 120:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -381,7 +381,7 @@ while running:
         text2 = 'LEVEL 7'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
 
-    elif score == 800:
+    elif score == 80:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -426,7 +426,7 @@ while running:
         text2 = 'LEVEL 5'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
 
-    elif score == 1000:
+    elif score == 100:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -439,7 +439,7 @@ while running:
                 #set respawn position to right in front of the player
                 self.rect.bottom = y
                 self.rect.centerx = x
-                self.speedy = -15
+                self.speedy = -5
             def update(self):
                 #rect moves upwards at the speed
                 self.rect.y += self.speedy
