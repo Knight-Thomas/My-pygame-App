@@ -43,11 +43,6 @@ bullet_imgT = pg.image.load(path.join(img_dir, 'Theodore-Seville.TIFF')).convert
 bullet_imgS = pg.image.load(path.join(img_dir, 'Simon-Seville.TIFF'))
 
 
-new_db = sqlite3.connect("Ian-Hawke-Game.db")
-c = new_db.cursor()
-
-
-
 #a sprite will be an object which inherits from the built in sprite class
 class Player(pg.sprite.Sprite):
     #sprite for the player
@@ -176,7 +171,7 @@ while running:
         mobs.add(m)
     if score == 0:
         text2 = 'LEVEL 1'
-        draw_text2(screen,str(text2),18,WIDTH/2,30)
+        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)
     
     elif score == 100:
         class Bullet(pg.sprite.Sprite):
@@ -221,7 +216,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,15)
         text2 = 'LEVEL 2'
-        draw_text2(screen,str(text2),18,WIDTH/2,30)
+        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)
         
     elif score == 300:
         class Bullet(pg.sprite.Sprite):
@@ -266,7 +261,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,15)
         text2 = 'LEVEL 4'
-        draw_text2(screen,str(text2),18,WIDTH/2,30)
+        draw_text2(screen,str(text2),18,WIDTH/2,30,RED)
             
     elif score == 200:
         class Bullet(pg.sprite.Sprite):
@@ -311,7 +306,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,20)
         text2 = 'LEVEL 3'
-        draw_text2(screen,str(text2),18,WIDTH/2,30)   
+        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)   
 
     elif score == 600:
         class Bullet(pg.sprite.Sprite):
@@ -356,7 +351,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,30)
         text2 = 'LEVEL 7'
-        draw_text2(screen,str(text2),18,WIDTH/2,30)
+        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)
 
     elif score == 400:
         class Bullet(pg.sprite.Sprite):
@@ -401,7 +396,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,25)
         text2 = 'LEVEL 5'
-        draw_text2(screen,str(text2),18,WIDTH/2,30)
+        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)
 
     elif score == 500:
         class Bullet(pg.sprite.Sprite):
@@ -446,7 +441,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,20)
         text2 = 'LEVEL 6'
-        draw_text2(screen,str(text2),18,WIDTH/2,30)
+        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)
         
 
     #Check to see if a mob hits the player
@@ -461,8 +456,8 @@ while running:
     screen.fill(BLACK)
     screen.blit(background,background_rect)
     all_sprites.draw(screen)
-    draw_text1(screen,str(score),18,WIDTH/2,10)
-    draw_text2(screen,str(text2),18,WIDTH/2,25)
+    draw_text1(screen,str(score),18,WIDTH/2,10, RED)
+    draw_text2(screen,str(text2),18,WIDTH/2,25, RED)
     #always do this after drawing anything
     pg.display.flip()
 
@@ -474,5 +469,5 @@ c.execute('''INSERT INTO Users
 
 #terminate the game window and close everything up    
 pg.quit
-new_db.commit()
-new_db.close()
+conn.commit()
+conn.close()
