@@ -4,6 +4,7 @@ import random
 import sqlite3
 
 from os import path
+from supportModules import *
 img_dir = path.join(path.dirname(__file__), 'img')
 snd_dir = path.join(path.dirname(__file__),'snd')
 
@@ -41,35 +42,11 @@ mob_img = pg.image.load(path.join(img_dir, 'James-Suggs.TIFF')).convert()
 bullet_imgT = pg.image.load(path.join(img_dir, 'Theodore-Seville.TIFF')).convert()
 bullet_imgS = pg.image.load(path.join(img_dir, 'Simon-Seville.TIFF'))
 
-font_name = pg.font.match_font('arial')
 
 new_db = sqlite3.connect("Ian-Hawke-Game.db")
 c = new_db.cursor()
 
 
-def draw_text1(surf,text,size, x,y):
-    #create a font oject
-    font = pg.font.Font(font_name,size)
-    #this will create text
-    text_surface = font.render(text,True,RED)
-    #true is for anti aliasing
-    text_rect = text_surface.get_rect()
-    #get rectagle for the text
-    text_rect.midtop = (x,y)
-    #put x,y at the midtop of the rectangle
-    surf.blit(text_surface, text_rect)
-
-def draw_text2(surf, text, size, x,y):
-        #create a font oject
-    font = pg.font.Font(font_name,size)
-    #this will create text
-    text_surface = font.render(text,True,RED)
-    #true is for anti aliasing
-    text_rect = text_surface.get_rect()
-    #get rectagle for the text
-    text_rect.midtop = (x,y)
-    #put x,y at the midtop of the rectangle
-    surf.blit(text_surface, text_rect)
 
 #a sprite will be an object which inherits from the built in sprite class
 class Player(pg.sprite.Sprite):
@@ -201,7 +178,7 @@ while running:
         text2 = 'LEVEL 1'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
     
-    elif score == 20:
+    elif score == 100:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -246,7 +223,7 @@ while running:
         text2 = 'LEVEL 2'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
         
-    elif score == 60:
+    elif score == 300:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -291,7 +268,7 @@ while running:
         text2 = 'LEVEL 4'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
             
-    elif score == 40:
+    elif score == 200:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -336,7 +313,7 @@ while running:
         text2 = 'LEVEL 3'
         draw_text2(screen,str(text2),18,WIDTH/2,30)   
 
-    elif score == 120:
+    elif score == 600:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -381,7 +358,7 @@ while running:
         text2 = 'LEVEL 7'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
 
-    elif score == 80:
+    elif score == 400:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
@@ -426,7 +403,7 @@ while running:
         text2 = 'LEVEL 5'
         draw_text2(screen,str(text2),18,WIDTH/2,30)
 
-    elif score == 100:
+    elif score == 500:
         class Bullet(pg.sprite.Sprite):
             def __init__(self,x,y):
                 #x and y and respawn positions based on the player's position
