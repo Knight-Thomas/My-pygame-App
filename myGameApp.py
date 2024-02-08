@@ -464,10 +464,6 @@ while running:
 Username = input('Enter Username: ')
 Password = input('Enter Password: ')
 
-c.execute('''INSERT INTO Users
-          VALUES (?,?,?)''', (Username, Password, score))
 
 #terminate the game window and close everything up    
 pg.quit
-conn.commit()
-conn.close()
