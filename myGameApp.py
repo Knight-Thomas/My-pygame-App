@@ -24,6 +24,8 @@ GREEN = (0,255,0)
 BLUE = (0,0,255)
 YELLOW = (255,255,0)
 
+SignInPYG()
+
 #Initialise common pygame objects
 pg.init()  
 pg.mixer.init()
@@ -41,6 +43,7 @@ bullet_img = pg.image.load(path.join(img_dir, 'Alvin-Seville.TIFF')).convert()
 mob_img = pg.image.load(path.join(img_dir, 'James-Suggs.TIFF')).convert() 
 bullet_imgT = pg.image.load(path.join(img_dir, 'Theodore-Seville.TIFF')).convert()
 bullet_imgS = pg.image.load(path.join(img_dir, 'Simon-Seville.TIFF'))
+
 
 
 #a sprite will be an object which inherits from the built in sprite class
@@ -171,7 +174,7 @@ while running:
         mobs.add(m)
     if score == 0:
         text2 = 'LEVEL 1'
-        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)
+        draw_text5(screen,str(text2),18,WIDTH/2,30, RED)
     
     elif score == 100:
         class Bullet(pg.sprite.Sprite):
@@ -216,7 +219,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,15)
         text2 = 'LEVEL 2'
-        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)
+        draw_text5(screen,str(text2),18,WIDTH/2,30, RED)
         
     elif score == 300:
         class Bullet(pg.sprite.Sprite):
@@ -261,7 +264,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,15)
         text2 = 'LEVEL 4'
-        draw_text2(screen,str(text2),18,WIDTH/2,30,RED)
+        draw_text5(screen,str(text2),18,WIDTH/2,30,RED)
             
     elif score == 200:
         class Bullet(pg.sprite.Sprite):
@@ -306,7 +309,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,20)
         text2 = 'LEVEL 3'
-        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)   
+        draw_text5(screen,str(text2),18,WIDTH/2,30, RED)   
 
     elif score == 600:
         class Bullet(pg.sprite.Sprite):
@@ -351,7 +354,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,30)
         text2 = 'LEVEL 7'
-        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)
+        draw_text5(screen,str(text2),18,WIDTH/2,30, RED)
 
     elif score == 400:
         class Bullet(pg.sprite.Sprite):
@@ -396,7 +399,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,25)
         text2 = 'LEVEL 5'
-        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)
+        draw_text5(screen,str(text2),18,WIDTH/2,30, RED)
 
     elif score == 500:
         class Bullet(pg.sprite.Sprite):
@@ -441,7 +444,7 @@ while running:
                     self.rect.y = random.randrange(-100,-40) #this is off the screen
                     self.speedy = random.randrange(1,20)
         text2 = 'LEVEL 6'
-        draw_text2(screen,str(text2),18,WIDTH/2,30, RED)
+        draw_text5(screen,str(text2),18,WIDTH/2,30, RED)
         
 
     #Check to see if a mob hits the player
@@ -456,13 +459,10 @@ while running:
     screen.fill(BLACK)
     screen.blit(background,background_rect)
     all_sprites.draw(screen)
-    draw_text1(screen,str(score),18,WIDTH/2,10, RED)
-    draw_text2(screen,str(text2),18,WIDTH/2,25, RED)
+    draw_text4(screen,str(score),18,WIDTH/2,10, RED)
+    draw_text5(screen,str(text2),18,WIDTH/2,25, RED)
     #always do this after drawing anything
     pg.display.flip()
-
-Username = input('Enter Username: ')
-Password = input('Enter Password: ')
 
 
 #terminate the game window and close everything up    

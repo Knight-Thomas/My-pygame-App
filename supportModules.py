@@ -12,12 +12,13 @@ BLUE = (0,0,255)
 YELLOW = (255,255,0)
 GREY = (125,125,125)
 
-font_name = pg.font.match_font('arial')
+font_name1 = pg.font.match_font('arial')
+font_name2 = pg.font.match_font('Consolas')
 
-def draw_text1(surf,text,size, x,y, clr):
+def draw_text4(surf,text,size, x,y, clr):
     #create a font oject
     try:
-        font = pg.font.Font(font_name,size)
+        font = pg.font.Font(font_name1,size)
         #this will create text
         text_surface = font.render(text,True,clr)
         #true is for anti aliasing
@@ -29,10 +30,10 @@ def draw_text1(surf,text,size, x,y, clr):
     except pg.error as e:
         print(f'Pygame Error: {e}')
 
-def draw_text2(surf, text, size, x,y, clr):
+def draw_text5(surf, text, size, x,y, clr):
      #create a font oject
     try:
-        font = pg.font.Font(font_name,size)
+        font = pg.font.Font(font_name1,size)
         #this will create text
         text_surface = font.render(text,True,clr)
         #true is for anti aliasing
@@ -93,109 +94,155 @@ def writesToSpecific(Username, Password):
     conn.close()
 
 
+
+
 def SignInPYG():
+    # Initialize Pygame
     pg.init()
     pg.mixer.init()
+    
+    # Match font
+    font_name2 = pg.font.match_font('Consolas')
 
-    #create the display
-    screen = pg.display.set_mode(( WIDTH1, HEIGHT1))
-    pg.display.set_caption('Sign in')
-    clock = pg.time.Clock()
+    # Define function to draw text
+    def draw_text(surf, text, size, x, y):
+        font = pg.font.Font(font_name2, size)
+        text_surface = font.render(text, True, WHITE)
+        text_rect = text_surface.get_rect(midtop=(x, y))
+        surf.blit(text_surface, text_rect)
 
-    font_name = pg.font.match_font('Consolas')
+    # Create function to create login window
+    
+    def create_login_window():
+        # Initialize Pygame
+        pg.init()
 
-    conn = sq.connect("Ian-Hawke-Game.db")
-    c = conn.cursor()
+        # Initialize the font module
+        pg.font.init()
 
-    #create a sprite group
-    all_sprites = pg.sprite.Group()
+        # Define function to draw text
+        def draw_text(surf, text, size, x, y):
+            font = pg.font.Font(font_name2, size)
+            text_surface = font.render(text, True, WHITE)
+            text_rect = text_surface.get_rect(midtop=(x, y))
+            surf.blit(text_surface, text_rect)
 
-    text1 = '''Please sign in to play'''
-    text2 = '''If you do not have an account you can make one'''
-    text3 = '''Just sign in like normal and an account will be made for you'''
+        # Create window surface
+        screen = pg.display.set_mode((WIDTH1, HEIGHT1))
+        pg.display.set_caption('Sign in')
+        clock = pg.time.Clock()
 
-    base_font = pg.font.Font(None, 32) 
-    user_text = '' 
+        # Create surface for drawing
+        screen.fill(GREY)
 
-    input_rect = pg.Rect(200, 200, 140, 32)
+        # Original text
+        original_text = "Welcome to the game. Please sign in to play."
 
-    color_active = pg.Color(WHITE) 
+        # Labels for input boxes
+        username_label = 'Username:'
+        password_label = 'Password:'
 
-    color_passive = pg.Color(WHITE) 
-    color = color_passive
+        # Draw texts
+        draw_text(screen, original_text, 15, WIDTH1/2, 50)
+        draw_text(screen, username_label, 15, 200, 180)
+        draw_text(screen, password_label, 15, 200, 230)
 
-    active = False
+        # Create text input boxes for username and password
+        username_rect = pg.Rect(200, 200, 200, 32)
+        password_rect = pg.Rect(200, 250, 200, 32)
 
-    #game loop
-    running = True
-    while running:
-        clock.tick(FPS1)
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                running = False
-                pg.quit() 
-                sys.exit() 
-            # if user types QUIT then the screen will close 
-  
-            if event.type == pg.MOUSEBUTTONDOWN: 
-                if input_rect.collidepoint(event.pos): 
-                    active = True
-                else: 
-                    active = False
-  
-        if event.type == pg.KEYDOWN: 
-  
-                # Check for backspace 
-            if event.key == pg.K_BACKSPACE: 
-  
-                # get text input from 0 to -1 i.e. end. 
-                user_text = user_text[:-1] 
-  
-            # Unicode standard is used for string 
-            # formation 
-            else: 
-                user_text += event.unicode
+        username = ''
+        password = ''
 
-    if active: 
-        color = color_active 
-    else: 
-        color = color_passive
+        color = WHITE
+        active_username = False
+        active_password = False
 
-    #update
-    all_sprites.update()
+        running = True
+        while running:
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    pg.quit()
+                    sys.exit()
 
-    #Draw/render
-    pg.draw.rect(screen, color, input_rect)
-    screen.fill(GREY)
-    all_sprites.draw(screen)
-    text_surface = base_font.render(user_text, True, (BLACK)) 
-    screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
-    input_rect.w = max(100, text_surface.get_width()+10) 
-    draw_text1(screen,str(text1),15,WIDTH1/2,10)
-    draw_text2(screen,str(text2),15,WIDTH1/2,30)
-    draw_text3(screen,str(text3),15,WIDTH1/2,50)
-    pg.display.flip()
+                if event.type == pg.MOUSEBUTTONDOWN:
+                    # Check if the mouse click is within the username input box
+                    if username_rect.collidepoint(event.pos):
+                        active_username = True
+                        active_password = False
+                        color = YELLOW
+                    else:
+                        active_username = False
+                    # Check if the mouse click is within the password input box
+                    if password_rect.collidepoint(event.pos):
+                        active_password = True
+                        active_username = False
+                        color = YELLOW
+                    else:
+                        active_password = False
 
-    Username = input('Enter Username: ')
-    Password = input('Enter Password: ')
+                if event.type == pg.KEYDOWN:
+                    if active_username:
+                        if event.key == pg.K_BACKSPACE:
+                            username = username[:-1]
+                        elif event.key == pg.K_RETURN:
+                            active_username = False
+                            active_password = True
+                            color = WHITE
+                        else:
+                            # Calculate maximum width of text that fits inside the box
+                            max_width = username_rect.width - 10
+                            # Only append character if it fits within the box
+                            if pg.font.Font(font_name2, 15).size(username + event.unicode)[0] < max_width:
+                                username += event.unicode
+                    elif active_password:
+                        if event.key == pg.K_BACKSPACE:
+                            password = password[:-1]
+                        elif event.key == pg.K_RETURN:
+                            running = False
+                            color = WHITE
+                        else:
+                            # Calculate maximum width of text that fits inside the box
+                            max_width = password_rect.width - 10
+                            # Only append character if it fits within the box
+                            if pg.font.Font(font_name2, 15).size(password + event.unicode)[0] < max_width:
+                                password += event.unicode
 
-    query1 = '''SELECT Highscore FROM USERS
-              WHERE Username = ?'''
+            screen.fill(GREY)
+            pg.draw.rect(screen, color, username_rect, 2)
+            pg.draw.rect(screen, color, password_rect, 2)
 
-    c.execute(query1,(Username))
+            # Render username text
+            username_text_surface = pg.font.Font(font_name2, 15).render(username, True, WHITE)
+            username_text_rect = username_text_surface.get_rect(midtop=(username_rect.x + 5, username_rect.y + 5))
+            screen.blit(username_text_surface, username_text_rect)
+
+            # Render asterisks for password
+            password_text_surface = pg.font.Font(font_name2, 15).render('*' * len(password), True, WHITE)
+            password_text_rect = password_text_surface.get_rect(midtop=(password_rect.x + 5, password_rect.y + 5))
+            screen.blit(password_text_surface, password_text_rect)
+
+            pg.display.flip()
+            clock.tick(FPS1)
+
+        return username, password
+    
+    # Example usage:
+    # username, password = create_login_window()
+
+    # Call the login window function
+    create_login_window()
+
+    # Quit Pygame
+    pg.quit()
 
 
-    if Username and Password != '':
-        pg.QUIT
-    else:
-        print('Invalid')
 
-    conn.commit()
-    conn.close()
+
 
 def draw_text1(surf,text,size, x,y):
     #create a font oject
-    font = pg.font.Font(font_name,size)
+    font = pg.font.Font(font_name2,size)
     #this will create text
     text_surface = font.render(text,True,WHITE)
     #true is for anti aliasing
@@ -207,7 +254,7 @@ def draw_text1(surf,text,size, x,y):
 
 def draw_text2(surf,text,size, x,y):    
     #create a font oject
-    font = pg.font.Font(font_name,size)
+    font = pg.font.Font(font_name2,size)
     #this will create text
     text_surface = font.render(text,True,WHITE)
     #true is for anti aliasing
@@ -219,7 +266,7 @@ def draw_text2(surf,text,size, x,y):
 
 def draw_text3(surf,text,size, x,y):
     #create a font oject
-    font = pg.font.Font(font_name,size)
+    font = pg.font.Font(font_name2,size)
     #this will create text
     text_surface = font.render(text,True,WHITE)
     #true is for anti aliasing
@@ -229,4 +276,3 @@ def draw_text3(surf,text,size, x,y):
     #put x,y at the midtop of the rectangle
     surf.blit(text_surface, text_rect)
 
-SignInPYG()
