@@ -1,5 +1,6 @@
 import pygame as pg
 import sqlite3 as sq
+import sys
 
 WIDTH1, HEIGHT1, FPS1 = (600,500,60)
 #Define colours
@@ -91,6 +92,107 @@ def writesToSpecific(Username, Password):
     conn.commit()
     conn.close()
 
+
+def SignInPYG():
+    pg.init()
+    pg.mixer.init()
+
+    #create the display
+    screen = pg.display.set_mode(( WIDTH1, HEIGHT1))
+    pg.display.set_caption('Sign in')
+    clock = pg.time.Clock()
+
+    font_name = pg.font.match_font('Consolas')
+
+    conn = sq.connect("Ian-Hawke-Game.db")
+    c = conn.cursor()
+
+    #create a sprite group
+    all_sprites = pg.sprite.Group()
+
+    text1 = '''Please sign in to play'''
+    text2 = '''If you do not have an account you can make one'''
+    text3 = '''Just sign in like normal and an account will be made for you'''
+
+    base_font = pg.font.Font(None, 32) 
+    user_text = '' 
+
+    input_rect = pg.Rect(200, 200, 140, 32)
+
+    color_active = pg.Color(WHITE) 
+
+    color_passive = pg.Color(WHITE) 
+    color = color_passive
+
+    active = False
+
+    #game loop
+    running = True
+    while running:
+        clock.tick(FPS1)
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
+                pg.quit() 
+                sys.exit() 
+            # if user types QUIT then the screen will close 
+  
+            if event.type == pg.MOUSEBUTTONDOWN: 
+                if input_rect.collidepoint(event.pos): 
+                    active = True
+                else: 
+                    active = False
+  
+        if event.type == pg.KEYDOWN: 
+  
+                # Check for backspace 
+            if event.key == pg.K_BACKSPACE: 
+  
+                # get text input from 0 to -1 i.e. end. 
+                user_text = user_text[:-1] 
+  
+            # Unicode standard is used for string 
+            # formation 
+            else: 
+                user_text += event.unicode
+
+    if active: 
+        color = color_active 
+    else: 
+        color = color_passive
+
+    #update
+    all_sprites.update()
+
+    #Draw/render
+    pg.draw.rect(screen, color, input_rect)
+    screen.fill(GREY)
+    all_sprites.draw(screen)
+    text_surface = base_font.render(user_text, True, (BLACK)) 
+    screen.blit(text_surface, (input_rect.x+5, input_rect.y+5))
+    input_rect.w = max(100, text_surface.get_width()+10) 
+    draw_text1(screen,str(text1),15,WIDTH1/2,10)
+    draw_text2(screen,str(text2),15,WIDTH1/2,30)
+    draw_text3(screen,str(text3),15,WIDTH1/2,50)
+    pg.display.flip()
+
+    Username = input('Enter Username: ')
+    Password = input('Enter Password: ')
+
+    query1 = '''SELECT Highscore FROM USERS
+              WHERE Username = ?'''
+
+    c.execute(query1,(Username))
+
+
+    if Username and Password != '':
+        pg.QUIT
+    else:
+        print('Invalid')
+
+    conn.commit()
+    conn.close()
+
 def draw_text1(surf,text,size, x,y):
     #create a font oject
     font = pg.font.Font(font_name,size)
@@ -126,61 +228,5 @@ def draw_text3(surf,text,size, x,y):
     text_rect.midtop = (x,y)
     #put x,y at the midtop of the rectangle
     surf.blit(text_surface, text_rect)
-
-def SignInPYG():
-    pg.init()
-    pg.mixer.init()
-
-    #create the display
-    screen = pg.display.set_mode(( WIDTH1, HEIGHT1))
-    pg.display.set_caption('Sign in')
-    clock = pg.time.Clock()
-
-    font_name = pg.font.match_font('Consolas')
-
-    conn = sq.connect("Ian-Hawke-Game.db")
-    c = conn.cursor()
-
-    #create a sprite group
-    all_sprites = pg.sprite.Group()
-
-    text1 = '''Please sign in to play'''
-    text2 = '''If you do not have an account you can make one'''
-    text3 = '''Just sign in like normal and an account will be made for you'''
-
-    #game loop
-    running = True
-    while running:
-        clock.tick(FPS1)
-        for event in pg.event.get():
-            if event.type == pg.QUIT:
-                running = False
-    
-        #update
-        all_sprites.update()
-
-        #Draw/render
-        screen.fill(GREY)
-        all_sprites.draw(screen)
-        draw_text1(screen,str(text1),15,WIDTH1/2,10)
-        draw_text2(screen,str(text2),15,WIDTH1/2,30)
-        draw_text3(screen,str(text3),15,WIDTH1/2,50)
-        pg.display.flip()
-
-    Username = input('Enter Username: ')
-    Password = input('Enter Password: ')
-
-
-    c.execute('''INSERT INTO Users
-                VALUES (?,?,0)''', (Username, Password))
-
-
-    if Username and Password != '':
-        pg.QUIT
-    else:
-        print('Invalid')
-
-    conn.commit()
-    conn.close()
 
 SignInPYG()
