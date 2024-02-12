@@ -18,7 +18,7 @@ font_name2 = pg.font.match_font('Consolas')
 def draw_text4(surf,text,size, x,y, clr):
     #create a font oject
     try:
-        font = pg.font.Font(font_name1,size)
+        font = pg.font.Font(font_name2,size)
         #this will create text
         text_surface = font.render(text,True,clr)
         #true is for anti aliasing
@@ -33,7 +33,7 @@ def draw_text4(surf,text,size, x,y, clr):
 def draw_text5(surf, text, size, x,y, clr):
      #create a font oject
     try:
-        font = pg.font.Font(font_name1,size)
+        font = pg.font.Font(font_name2,size)
         #this will create text
         text_surface = font.render(text,True,clr)
         #true is for anti aliasing
@@ -55,7 +55,7 @@ def DBconnect():
     
 def writeNewToDatabase(Username, Password, score):
     '''writes to the database'''
-    if score == '':
+    if score == 0:
         score = 0
     else:
         score = score
@@ -96,6 +96,7 @@ def writesToSpecific(Username, Password):
 
 
 
+
 def SignInPYG():
     # Initialize Pygame
     pg.init()
@@ -120,13 +121,6 @@ def SignInPYG():
         # Initialize the font module
         pg.font.init()
 
-        # Define function to draw text
-        def draw_text(surf, text, size, x, y):
-            font = pg.font.Font(font_name2, size)
-            text_surface = font.render(text, True, WHITE)
-            text_rect = text_surface.get_rect(midtop=(x, y))
-            surf.blit(text_surface, text_rect)
-
         # Create window surface
         screen = pg.display.set_mode((WIDTH1, HEIGHT1))
         pg.display.set_caption('Sign in')
@@ -136,16 +130,13 @@ def SignInPYG():
         screen.fill(GREY)
 
         # Original text
-        original_text = "Welcome to the game. Please sign in to play."
+        signInMessage = "Welcome to the game. Please sign in to play."
 
         # Labels for input boxes
         username_label = 'Username:'
         password_label = 'Password:'
 
         # Draw texts
-        draw_text(screen, original_text, 15, WIDTH1/2, 50)
-        draw_text(screen, username_label, 15, 200, 180)
-        draw_text(screen, password_label, 15, 200, 230)
 
         # Create text input boxes for username and password
         username_rect = pg.Rect(200, 200, 200, 32)
@@ -184,11 +175,11 @@ def SignInPYG():
                 if event.type == pg.KEYDOWN:
                     if active_username:
                         if event.key == pg.K_BACKSPACE:
-                            username = username[:-1]
+                            username = username[:+1]
                         elif event.key == pg.K_RETURN:
                             active_username = False
                             active_password = True
-                            color = WHITE
+                            color = YELLOW
                         else:
                             # Calculate maximum width of text that fits inside the box
                             max_width = username_rect.width - 10
@@ -197,7 +188,7 @@ def SignInPYG():
                                 username += event.unicode
                     elif active_password:
                         if event.key == pg.K_BACKSPACE:
-                            password = password[:-1]
+                            password = password[:+1]
                         elif event.key == pg.K_RETURN:
                             running = False
                             color = WHITE
@@ -212,33 +203,40 @@ def SignInPYG():
             pg.draw.rect(screen, color, username_rect, 2)
             pg.draw.rect(screen, color, password_rect, 2)
 
+            draw_text4(screen, str(signInMessage), 18, WIDTH1/2, 50, WHITE)
+            draw_text5(screen, str(username_label), 18, 200, 180, WHITE)
+            draw_text5(screen, str(password_label), 18, 200, 230, WHITE)
+
             # Render username text
             username_text_surface = pg.font.Font(font_name2, 15).render(username, True, WHITE)
-            username_text_rect = username_text_surface.get_rect(midtop=(username_rect.x + 5, username_rect.y + 5))
+            username_text_rect = username_text_surface.get_rect(midtop=(username_rect.x + 7.5, username_rect.y + 7.5))
             screen.blit(username_text_surface, username_text_rect)
 
             # Render asterisks for password
             password_text_surface = pg.font.Font(font_name2, 15).render('*' * len(password), True, WHITE)
-            password_text_rect = password_text_surface.get_rect(midtop=(password_rect.x + 5, password_rect.y + 5))
+            password_text_rect = password_text_surface.get_rect(midtop=(password_rect.x + 7.5, password_rect.y + 7.5))
             screen.blit(password_text_surface, password_text_rect)
 
             pg.display.flip()
             clock.tick(FPS1)
 
         return username, password
-    
+
     # Example usage:
     # username, password = create_login_window()
 
     # Call the login window function
     create_login_window()
-
+    readDatabaseRecords()
     # Quit Pygame
     pg.quit()
 
-
-
-
+#def readDatabase(username1):
+    #conn, c = DBconnect()
+    #query3 = '''SELECT * FROM Users Where Username = ?'''
+    #c.execute(query3,(username1))
+    #conn.commit()
+    #conn.close()
 
 def draw_text1(surf,text,size, x,y):
     #create a font oject
@@ -276,3 +274,4 @@ def draw_text3(surf,text,size, x,y):
     #put x,y at the midtop of the rectangle
     surf.blit(text_surface, text_rect)
 
+#SignInPYG()
