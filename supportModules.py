@@ -75,7 +75,7 @@ def readDatabaseRecords():
     print(results)
     conn.close()
 
-def writesToSpecific(Username, Password):
+def writesToSpecific(Username, Password, score):
     '''writes a value to a specific record'''
     #query option to be written too
     query ="""SELECT COUNT(*)
@@ -87,15 +87,22 @@ def writesToSpecific(Username, Password):
     c.execute(query,(Username))
     results = c.fetchall()
     if results[0][0] ==1:
-        print('call append method')
-    else:
         writeNewToDatabase(Username, Password)
+    else:
+        updateExistingRecord(Username, score)
     conn.commit()
     conn.close()
 
-
-
-
+def updateExistingRecord(Username, score):
+    '''reads existing records and updates the score the 
+    score shuffling out the oldest score and adding new'''
+    conn, c = DBconnect()
+    query4 = '''SELECT HighScore FROM Users WHERE Username =?'''
+    c.execute(query4,(Username))
+    updateQuery = '''UOPDATE Users SET HighScore=? WHERE Username =?'''
+    c.execute(updateQuery,(score, Username))
+    conn.commit()
+    conn.close()
 
 def SignInPYG():
     # Initialize Pygame
@@ -231,12 +238,12 @@ def SignInPYG():
     # Quit Pygame
     pg.quit()
 
-#def readDatabase(username1):
-    #conn, c = DBconnect()
-    #query3 = '''SELECT * FROM Users Where Username = ?'''
-    #c.execute(query3,(username1))
-    #conn.commit()
-    #conn.close()
+def readDatabase(username):
+    conn, c = DBconnect()
+    query3 = '''SELECT * FROM Users Where Username = ?'''
+    c.execute(query3,(username))
+    conn.commit()
+    conn.close()
 
 def draw_text1(surf,text,size, x,y):
     #create a font oject
